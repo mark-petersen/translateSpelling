@@ -18,6 +18,7 @@ import numpy as np
 import string as str
 import sys
 import pickle
+import time
 
 # if len(sys.argv)<3:
 #     print "input and output files required"
@@ -29,7 +30,10 @@ import pickle
 #
 ################################################
 
+
+
 # Open file of entries for American (reform) spelling.
+t0 = time.time()
 dictFileName = 'DIAMBG'
 f = open(dictFileName, 'r')
 rawString = f.read()
@@ -42,7 +46,15 @@ standardToReform = {}
 for i in range(int(len(a)/2)):
     standardToReform[a[2*i]] = a[2*i+1]
 
+t1 = time.time()
+print('dictionary read and create:',t1-t0)
 pickle.dump( standardToReform, open( dictFileName+'.p', 'wb' ) )
+t2 = time.time()
+print('pickle dump:',t2-t1)
+t1 = time.time()
+dictPickle = pickle.load( open( dictFileName+'.p', 'rb' ) )
+t2 = time.time()
+print('pickle read:',t2-t1)
 
 ################################################
 #
